@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <rect width="1600" height="900" fill="#222222" />
+  <g transform="translate(740 340)">
+    <rect width="120" height="130" rx="10" fill="#555555" />
+    <g fill="#222222">
+      <rect x="14" y="16" width="92" height="18" rx="3" />
+      <rect x="14" y="46" width="92" height="18" rx="3" />
+      <rect x="14" y="76" width="92" height="18" rx="3" />
+    </g>
+  </g>
+  <text x="800" y="545" text-anchor="middle" fill="#888888" font-family="system-ui, sans-serif" font-size="36">
+    No backdrop available
+  </text>
+</svg>

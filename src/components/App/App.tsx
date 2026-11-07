@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Loader from '../Loader/Loader';
@@ -15,13 +15,35 @@ export default function App() {
   const [error, setError] = useState<boolean>(false);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
+  const requestIdRef = useRef(0);
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
+
   const handleSearch = async (query: string): Promise<void> => {
+    requestIdRef.current += 1;
+    const requestId = requestIdRef.current;
+
+    // Cancel the previous request so it cannot update the UI after this search.
+    abortControllerRef.current?.abort();
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
+
     setMovies([]);
     setError(false);
     setLoading(true);
 
     try {
-      const results = await fetchMovies(query);
+      const results = await fetchMovies(query, abortController.signal);
+
+      // Only the latest search is allowed to update the state or show a toast.
+      if (requestId !== requestIdRef.current) {
+        return;
+      }
 
       if (results.length === 0) {
         toast.error('No movies found for your request.');
@@ -29,9 +51,15 @@ export default function App() {
 
       setMovies(results);
     } catch {
+      if (requestId !== requestIdRef.current) {
+        return;
+      }
+
       setError(true);
     } finally {
-      setLoading(false);
+      if (requestId === requestIdRef.current) {
+        setLoading(false);
+      }
     }
   };
 

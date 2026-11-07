@@ -9,18 +9,23 @@ interface MovieSearchResponse {
 }
 
 const TMDB_SEARCH_URL = 'https://api.themoviedb.org/3/search/movie';
-const TMDB_TOKEN = import.meta.env.VITE_TMDB_TOKEN;
 
-export async function fetchMovies(query: string): Promise<Movie[]> {
+export async function fetchMovies(
+  query: string,
+  signal?: AbortSignal,
+): Promise<Movie[]> {
+  const token = import.meta.env.VITE_TMDB_TOKEN;
+
   const response: AxiosResponse<MovieSearchResponse> =
     await axios.get<MovieSearchResponse>(TMDB_SEARCH_URL, {
       params: {
         query,
       },
       headers: {
-        Authorization: `Bearer ${TMDB_TOKEN}`,
+        Authorization: `Bearer ${token}`,
         accept: 'application/json',
       },
+      signal,
     });
 
   return response.data.results;
