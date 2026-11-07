@@ -59,7 +59,7 @@ addition is a `.card:focus-visible` outline so keyboard focus is visible on the 
 
 ## Stack
 
-Vite, React 19, TypeScript, axios, react-hot-toast, modern-normalize, CSS Modules, Prettier,
+Vite, React 19, TypeScript (strict mode), axios, react-hot-toast, modern-normalize, CSS Modules, Prettier,
 Vitest + React Testing Library (jsdom) for unit/component tests, Playwright for end-to-end checks.
 
 ## Setup
@@ -168,7 +168,7 @@ npm run format:check  # Prettier clean
 
 ## Status
 
-- Implementation complete, review issues fixed and locally verified (2026-11-07,
-  React 19 + Vite 8, 46 unit tests + 55 Playwright checks on dev and prod builds).
+- Implementation complete, review issues fixed, TypeScript `strict` enabled and locally verified
+  (2026-11-07, React 19 + Vite 8, 46 unit tests + 55 Playwright checks on dev and prod builds).
 - Pending: a real TMDB token in `.env.local`, a public GitHub repository, and a Vercel deployment
   (the two links the LMS submission requires).
